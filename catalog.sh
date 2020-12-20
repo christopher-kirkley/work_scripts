@@ -1,14 +1,8 @@
 #!/usr/bin/env python3
 
 import os
+from shutil import copyfile
 
-templates={
-	'12inch': '12inch.pdf',
-	'7inch': '7inch.pdf',
-	'cassette': 'cassette.pdf',
-	'cd': 'digipack.pdf',
-	'psd': 'cover.psd',
-}
 
 directories={
 	'audio': [
@@ -47,4 +41,21 @@ for directory in directories:
 		path = os.path.join(root, directory, subdir)
 		os.makedirs(path)
 
+templates={
+	'1': '12inch.psd',
+	'2': '7inch.pdf',
+	'3': 'digipack.pdf',
+	'4': 'cassette.pdf',
+	'psd': 'cover.psd',
+}
+
+print("12in...........[1]")
+print("7in............[2]")
+print("CD.............[3]")
+print("Cass...........[4]")
+
+options = input("Select options [seperate with space] : ")
+
+for i in options:	
+	copyfile(f"templates/{templates[i]}", f"{root}/art/draft/{templates[i]}")
 
