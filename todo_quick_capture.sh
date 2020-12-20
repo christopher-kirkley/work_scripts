@@ -2,7 +2,7 @@
 
 inbox=~/Documents/gtd/inbox.org
 
-note=$(rofi -dmenu -p "note")
+note=$(rofi -dmenu -p "TODO")
 
 [[ -z $note ]] && exit
 
