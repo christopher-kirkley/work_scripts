@@ -71,7 +71,10 @@ else
     log "Starting recording..."
     dunstify -u low -t 0 -r 9999 "Dictation" "Recording..."
     MAX_DURATION=120
-    (sox -t alsa default -r 16000 -c 1 -b 16 "$AUDIO_FILE" trim 0 $MAX_DURATION; rm -f "$PID_FILE"; dunstify -u low -t 3000 -r 9999 "Dictation" "Recording timed out") &
-    echo $! > "$PID_FILE"
+    sox -t alsa default -r 16000 -c 1 -b 16 "$AUDIO_FILE" &
+    SOX_PID=$!
+    echo $SOX_PID > "$PID_FILE"
+    # Background watchdog to auto-stop after MAX_DURATION
+    (sleep $MAX_DURATION; if kill -0 $SOX_PID 2>/dev/null; then kill $SOX_PID; rm -f "$PID_FILE"; dunstify -u low -t 3000 -r 9999 "Dictation" "Recording timed out"; fi) &
     log "Recording started (PID: $!)"
 fi
